@@ -19,7 +19,7 @@ labels: backend, good first issue
 - [ ] Controller method with `@Api*` decorators
 - [ ] Input validation if needed
 - [ ] Unit tests added
-- [ ] `npm run build` passes
+- [ ] `pnpm build` passes
 
 ## Context
 
