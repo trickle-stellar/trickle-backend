@@ -1,0 +1,37 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: trickle
+      POSTGRES_PASSWORD: trickle_dev
+      POSTGRES_DB: trickle
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
+    environment:
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: trickle
+      POSTGRES_PASSWORD: trickle_dev
+      POSTGRES_DB: trickle
+      JWT_SECRET: change-me-in-production
+      SOROBAN_RPC_URL: https://soroban-rpc.testnet.stellar.org
+      SOROBAN_NETWORK_PASSPHRASE: "Test SDF Network ; September 2015"
+      HORIZON_URL: https://horizon-testnet.stellar.org
+      STELLAR_NETWORK_PASSPHRASE: "Test SDF Network ; September 2015"
+      FACTORY_CONTRACT_ADDRESS:
+
+volumes:
+  pgdata:
