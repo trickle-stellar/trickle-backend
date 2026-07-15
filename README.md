@@ -54,7 +54,7 @@ Soroban Contracts (on-chain)
 
 - Node.js 22+
 - PostgreSQL 16+ (or use Docker)
-- pnpm (recommended) or npm
+- pnpm
 
 ### Quick Start (Docker)
 
@@ -66,9 +66,9 @@ docker compose -f docker/docker-compose.yml up -d
 
 ```bash
 cp .env.example .env    # edit with your values
-npm install
-npm run migration:run
-npm run start:dev
+pnpm install
+pnpm migration:run
+pnpm start:dev
 ```
 
 ### Environment Variables
@@ -165,12 +165,12 @@ All endpoints are prefixed with `/api/v1`.
 ### Commands
 
 ```bash
-npm run start:dev          # Development server with hot reload
-npm run build              # Production build
-npm run test               # Unit tests
-npm run test:cov           # Coverage report
-npm run migration:run      # Run database migrations
-npm run migration:revert   # Revert last migration
+pnpm start:dev          # Development server with hot reload
+pnpm build              # Production build
+pnpm test               # Unit tests
+pnpm test:cov           # Coverage report
+pnpm migration:run      # Run database migrations
+pnpm migration:revert   # Revert last migration
 ```
 
 ### Project Structure

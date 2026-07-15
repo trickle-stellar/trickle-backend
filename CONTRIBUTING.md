@@ -12,7 +12,7 @@ Welcome — thanks for helping build Trickle. This guide covers the backend API 
 
 - Node.js 22+
 - PostgreSQL 16+
-- pnpm or npm
+- pnpm
 - Basic NestJS knowledge
 
 ## Getting Started
@@ -20,9 +20,9 @@ Welcome — thanks for helping build Trickle. This guide covers the backend API 
 ```bash
 cd trickle-backend
 cp .env.example .env
-npm install
-npm run migration:run
-npm run start:dev
+pnpm install
+pnpm migration:run
+pnpm start:dev
 ```
 
 The server starts on `http://localhost:3000`. Swagger docs at `/api/docs`.
@@ -110,8 +110,8 @@ getClaimableBalance(@Param('address') address: string) {
 ## Testing
 
 ```bash
-npm run test              # Unit tests (Jest)
-npm run test:cov          # With coverage
+pnpm test              # Unit tests (Jest)
+pnpm test:cov          # With coverage
 ```
 
 Add tests in `*.spec.ts` files co-located with the service/controller.

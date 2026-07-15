@@ -8,8 +8,8 @@
 
 # Testing
 
-- [ ] `npm run build` passes
-- [ ] `npm run test` passes
+- [ ] `pnpm build` passes
+- [ ] `pnpm test` passes
 - [ ] Manual test (if applicable): <!-- describe what you tested -->
 
 # Notes
