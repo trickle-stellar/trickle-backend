@@ -54,7 +54,7 @@ Soroban Contracts (on-chain)
 
 - Node.js 22+
 - PostgreSQL 16+ (or use Docker)
-- pnpm (recommended) or npm
+- pnpm
 
 ### Quick Start (Docker)
 
@@ -66,9 +66,9 @@ docker compose -f docker/docker-compose.yml up -d
 
 ```bash
 cp .env.example .env    # edit with your values
-npm install
-npm run migration:run
-npm run start:dev
+pnpm install
+pnpm migration:run
+pnpm start:dev
 ```
 
 ### Environment Variables
