@@ -165,39 +165,49 @@ All endpoints are prefixed with `/api/v1`.
 ### Commands
 
 ```bash
-pnpm start:dev          # Development server with hot reload
-pnpm build              # Production build
-pnpm test               # Unit tests
-pnpm test:cov           # Coverage report
-pnpm migration:run      # Run database migrations
-pnpm migration:revert   # Revert last migration
+pnpm start:dev              # Development server with hot reload
+pnpm build                  # Production build
+pnpm test                   # Unit tests
+pnpm test:cov               # Coverage report
+pnpm migration:run          # Run database migrations
+pnpm migration:revert       # Revert last migration
 ```
 
 ### Project Structure
 
 ```
-src/
-├── main.ts                    # Bootstrap, global pipes, Swagger
-├── app.module.ts              # Root module
-├── config/                    # Environment configuration
-├── database/                  # TypeORM, migrations
-├── common/                    # Shared decorators, guards, filters, DTOs
-│   ├── decorators/            # @CurrentUser, @Public, @UseApiKey
-│   ├── guards/                # JwtAuthGuard, ApiKeyGuard
-│   ├── interceptors/          # Logging, Transform
-│   ├── filters/               # Exception filters
-│   ├── entities/              # BaseEntity
-│   └── dto/                   # PaginationDto
-└── modules/
-    ├── stellar/               # StellarService (Horizon + Soroban RPC)
-    ├── auth/                  # Freighter wallet auth + API keys
-    ├── stream/                # Stream CRUD + real-time balance
-    ├── factory/               # Factory contract interactions
-    ├── multistream/           # Multi-recipient stream ops
-    ├── vesting/               # Vesting schedule ops
-    ├── stream-nft/            # Stream NFT ops
-    ├── fees/                  # Fee management
-    └── indexer/               # Event + state sync
+trickle-backend/
+├── src/
+│   ├── main.ts                   # Bootstrap, Swagger, CORS
+│   ├── app.module.ts             # Root module
+│   ├── health.controller.ts
+│   ├── config/                   # Environment configuration
+│   ├── database/                 # TypeORM, migrations
+│   ├── common/                   # Guards, filters, interceptors, DTOs
+│   │   ├── decorators/           # @CurrentUser, @Public, @UseApiKey
+│   │   ├── guards/               # JwtAuthGuard, ApiKeyGuard
+│   │   ├── interceptors/         # Logging, Transform
+│   │   ├── filters/              # Exception filters
+│   │   ├── entities/             # BaseEntity
+│   │   └── dto/                  # PaginationDto
+│   └── modules/
+│       ├── stellar/              # StellarService (Horizon + Soroban RPC)
+│       ├── auth/                 # Freighter wallet auth + API keys
+│       ├── stream/               # Stream CRUD + real-time balance
+│       ├── factory/              # Factory contract interactions
+│       ├── multistream/          # Multi-recipient streams
+│       ├── vesting/              # Vesting schedules
+│       ├── stream-nft/           # Stream NFTs
+│       ├── fees/                 # Fee management
+│       └── indexer/              # Event + state sync
+├── test/                          # E2E test setup
+├── docker/                        # Dockerfile + docker-compose.yml
+├── .github/workflows/ci.yml
+├── eslint.config.js               # ESLint flat config
+├── jest.config.js
+├── tsconfig.json
+├── package.json
+└── .env.example
 ```
 
 ### Adding a New Endpoint
@@ -211,7 +221,7 @@ src/
 
 ## Contributing
 
-See [CONTRIBUTING.md](../CONTRIBUTING.md) for full guidelines.
+See [CONTRIBUTING.md](./CONTRIBUTING.md) for full guidelines.
 
 ## License
 
