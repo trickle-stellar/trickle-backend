@@ -9,6 +9,7 @@
     "url": "https://github.com/trickle-stellar/trickle-backend"
   },
   "author": "Trickle Protocol",
+  "packageManager": "pnpm@9.15.0",
   "engines": {
     "node": ">=22"
   },
