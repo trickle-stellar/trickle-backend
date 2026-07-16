@@ -8,15 +8,14 @@ export class InitialSchema1700000000000 implements MigrationInterface {
       CREATE TABLE IF NOT EXISTS "streams" (
         "id" uuid PRIMARY KEY DEFAULT gen_random_uuid(),
         "contractAddress" varchar NOT NULL UNIQUE,
-        "streamId" int,
         "sender" varchar NOT NULL,
         "recipient" varchar NOT NULL,
         "asset" varchar NOT NULL,
+        "streamAmount" bigint NOT NULL,
+        "claimedAmount" bigint NOT NULL DEFAULT '0',
         "flowRate" bigint NOT NULL,
-        "totalAmount" bigint NOT NULL,
-        "withdrawnAmount" bigint NOT NULL DEFAULT '0',
         "startTime" bigint NOT NULL,
-        "lastUpdateTime" bigint NOT NULL,
+        "duration" int NOT NULL,
         "status" varchar NOT NULL DEFAULT 'active',
         "createdAt" timestamp NOT NULL DEFAULT now(),
         "updatedAt" timestamp NOT NULL DEFAULT now()
@@ -91,14 +90,17 @@ export class InitialSchema1700000000000 implements MigrationInterface {
     await queryRunner.query(`
       CREATE TABLE IF NOT EXISTS "api_keys" (
         "id" uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-        "key" varchar NOT NULL UNIQUE,
         "name" varchar NOT NULL,
-        "isActive" boolean NOT NULL DEFAULT true,
+        "keyHash" varchar NOT NULL UNIQUE,
+        "serviceAddress" varchar NOT NULL,
+        "scopes" text NOT NULL,
+        "expiresAt" timestamp,
         "lastUsedAt" timestamp,
+        "revokedAt" timestamp,
         "createdAt" timestamp NOT NULL DEFAULT now(),
         "updatedAt" timestamp NOT NULL DEFAULT now()
       );
-      CREATE INDEX idx_api_keys_key ON "api_keys"("key");
+      CREATE INDEX idx_api_keys_hash ON "api_keys"("keyHash");
     `);
 
     await queryRunner.query(`

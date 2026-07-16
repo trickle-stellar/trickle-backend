@@ -2,11 +2,11 @@ export default () => ({
   port: parseInt(process.env.PORT || '3000', 10),
 
   database: {
-    host: process.env.POSTGRES_HOST || 'localhost',
-    port: parseInt(process.env.POSTGRES_PORT || '5432', 10),
-    username: process.env.POSTGRES_USER || 'trickle',
-    password: process.env.POSTGRES_PASSWORD || 'trickle',
-    name: process.env.POSTGRES_DB || 'trickle',
+    host: process.env.DB_HOST || 'localhost',
+    port: parseInt(process.env.DB_PORT || '5432', 10),
+    username: process.env.DB_USERNAME || 'trickle',
+    password: process.env.DB_PASSWORD || 'trickle',
+    name: process.env.DB_NAME || 'trickle',
   },
 
   jwt: {
@@ -17,11 +17,11 @@ export default () => ({
   stellar: {
     network: process.env.STELLAR_NETWORK || 'testnet',
     horizonUrl:
-      process.env.HORIZON_URL ||
+      process.env.STELLAR_HORIZON_URL ||
       'https://horizon-testnet.stellar.org',
     sorobanRpcUrl:
-      process.env.SOROBAN_RPC_URL ||
-      'https://soroban-rpc.testnet.stellar.org',
+      process.env.STELLAR_SOROBAN_RPC_URL ||
+      'https://soroban-testnet.stellar.org:443',
     networkPassphrase:
       process.env.STELLAR_NETWORK_PASSPHRASE ||
       'Test SDF Network ; September 2015',
