@@ -19,7 +19,7 @@
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
-    "lint": "eslint \"{src,test}/**/*.ts\" --fix",
+    "lint": "eslint \"{src,test,scripts}/**/*.ts\" --fix",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
@@ -27,7 +27,8 @@
     "typeorm": "ts-node -r tsconfig-paths/register ./src/database/data-source.ts",
     "migration:generate": "pnpm typeorm -- migration:generate -d src/database/data-source.ts",
     "migration:run": "pnpm typeorm -- migration:run -d src/database/data-source.ts",
-    "migration:revert": "pnpm typeorm -- migration:revert -d src/database/data-source.ts"
+    "migration:revert": "pnpm typeorm -- migration:revert -d src/database/data-source.ts",
+    "deploy:factory": "ts-node scripts/deploy.ts"
   },
   "dependencies": {
     "@nestjs/common": "^11.1.0",
