@@ -4,7 +4,6 @@ import {
   Post,
   Body,
   Param,
-  UseGuards,
 } from '@nestjs/common';
 import {
   ApiTags,
@@ -14,7 +13,6 @@ import {
 } from '@nestjs/swagger';
 import { StreamService } from './stream.service';
 import { Public } from '../../common/decorators/public.decorator';
-import { CurrentUser } from '../../common/decorators/current-user.decorator';
 
 @ApiTags('streams')
 @Controller('streams')
@@ -81,6 +79,19 @@ export class StreamController {
       body.amount,
       body.duration,
     );
+  }
+
+  @Post('submit')
+  @ApiBearerAuth()
+  @ApiOperation({
+    summary: 'Submit a client-signed transaction',
+    description:
+      'Accepts the signed XDR produced by /streams (:address or create). ' +
+      'On success it persists the on-chain stream state (via get_info) and ' +
+      'returns the transaction hash and, for creates, the stream address.',
+  })
+  submit(@Body() body: { signedXdr: string }) {
+    return this.streamService.submit(body.signedXdr);
   }
 
   @Post(':address/withdraw')
