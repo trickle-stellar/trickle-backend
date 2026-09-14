@@ -1,36 +1,38 @@
-import { Controller, Get, Post, Body, Param, Delete } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
+import { Controller, Get, Param, ParseIntPipe } from '@nestjs/common';
+import { ApiTags, ApiOperation, ApiParam } from '@nestjs/swagger';
 import { FactoryService } from './factory.service';
 import { Public } from '../../common/decorators/public.decorator';
 
-@ApiTags('streams')
-@Controller('streams')
+/**
+ * Read-only views over the factory contract's stream registry.
+ *
+ * Stream creation lives on `POST /streams` (StreamController) — this
+ * controller deliberately exposes no write endpoints.
+ */
+@ApiTags('factory')
+@Controller('factory')
 export class FactoryController {
   constructor(private factoryService: FactoryService) {}
 
-  @Post()
-  @ApiBearerAuth()
-  @ApiOperation({
-    summary: 'Create a stream via the factory contract',
-    description:
-      'Returns a transaction XDR. Sign with Freighter, then submit.',
-  })
-  createStream(
-    @Body()
-    body: {
-      sender: string;
-      recipient: string;
-      asset: string;
-      amount: string;
-      duration: number;
-    },
-  ) {
-    return this.factoryService.createStream(
-      body.sender,
-      body.recipient,
-      body.asset,
-      body.amount,
-      body.duration,
-    );
+  @Get('streams/:streamId')
+  @Public()
+  @ApiOperation({ summary: 'Get cached stream metadata by stream ID' })
+  @ApiParam({ name: 'streamId', description: 'Stream ID (factory registry)' })
+  getStream(@Param('streamId', ParseIntPipe) streamId: number) {
+    return this.factoryService.getStream(streamId);
+  }
+
+  @Get('sender/:address')
+  @Public()
+  @ApiOperation({ summary: 'Get stream IDs created by a sender' })
+  getStreamsBySender(@Param('address') address: string) {
+    return this.factoryService.getStreamsBySender(address);
+  }
+
+  @Get('recipient/:address')
+  @Public()
+  @ApiOperation({ summary: 'Get stream IDs paying out to a recipient' })
+  getStreamsByRecipient(@Param('address') address: string) {
+    return this.factoryService.getStreamsByRecipient(address);
   }
 }
