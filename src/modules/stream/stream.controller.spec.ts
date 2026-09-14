@@ -10,7 +10,16 @@ describe('StreamController', () => {
     getClaimableBalance: jest.fn().mockResolvedValue({ claimable: '0' }),
     getStreamsBySender: jest.fn().mockResolvedValue([]),
     getStreamsByRecipient: jest.fn().mockResolvedValue([]),
-    createStream: jest.fn().mockRejectedValue(new Error('Not implemented')),
+    createStream: jest
+      .fn()
+      .mockResolvedValue({ txXdr: 'xdr', factoryAddress: 'CFACTORY' }),
+    submit: jest
+      .fn()
+      .mockResolvedValue({ status: 'confirmed', hash: 'h', streamAddress: 'CSTR' }),
+    withdraw: jest.fn().mockResolvedValue({ txXdr: 'wdr' }),
+    pause: jest.fn().mockResolvedValue({ txXdr: 'pdr' }),
+    resume: jest.fn().mockResolvedValue({ txXdr: 'rdr' }),
+    cancel: jest.fn().mockResolvedValue({ txXdr: 'cdr' }),
   };
 
   beforeEach(async () => {
@@ -34,5 +43,44 @@ describe('StreamController', () => {
   it('should get claimable balance', async () => {
     const result = await controller.getBalance('CABC');
     expect(result.claimable).toBe('0');
+  });
+
+  it('should delegate createStream', async () => {
+    const result = await controller.createStream({
+      sender: 'GA',
+      recipient: 'GB',
+      asset: 'GC',
+      amount: '100',
+      duration: 86400,
+    });
+    expect(result).toEqual({ txXdr: 'xdr', factoryAddress: 'CFACTORY' });
+    expect(mockStreamService.createStream).toHaveBeenCalledWith(
+      'GA',
+      'GB',
+      'GC',
+      '100',
+      86400,
+    );
+  });
+
+  it('should delegate submit', async () => {
+    const result = await controller.submit({ signedXdr: 'signed' });
+    expect(result).toEqual({
+      status: 'confirmed',
+      hash: 'h',
+      streamAddress: 'CSTR',
+    });
+    expect(mockStreamService.submit).toHaveBeenCalledWith('signed');
+  });
+
+  it.each([
+    { arg: 'GB', method: 'withdraw' },
+    { arg: 'GA', method: 'pause' },
+    { arg: 'GA', method: 'resume' },
+    { arg: 'GA', method: 'cancel' },
+  ])('should delegate $method', async ({ arg, method }) => {
+    const result = await controller[method]('CABC', { sender: arg, recipient: arg });
+    expect(result).toEqual({ txXdr: `${method === 'withdraw' ? 'w' : method[0]}dr` });
+    expect(mockStreamService[method]).toHaveBeenCalledWith('CABC', arg);
   });
 });
